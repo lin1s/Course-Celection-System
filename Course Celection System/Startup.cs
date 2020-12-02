@@ -1,3 +1,5 @@
+using Lin.IService;
+using Lin.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,6 +40,8 @@ namespace Course_Celection_System
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course_Celection_System", Version = "v1" });
             });
             services.AddDatabase(appsetting.GetConnectionString("SqlConnection"));
+
+            services.AddScoped(typeof(ITeacherService),typeof(TeacherService))
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
