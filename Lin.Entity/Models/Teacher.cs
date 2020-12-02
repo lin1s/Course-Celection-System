@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Lin.Entity.Models
 {
-    public class Teacher
+    public class Teacher : BaseEntity
     {
         public int TeacherID { get; set; }
         public Sex Sex { get; set; }
