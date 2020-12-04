@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lin.Entity
+namespace Lin.Entity.Models
 {
     public class JsonMessage
     {

@@ -26,6 +26,7 @@ namespace Lin.Service
             entity.IsDelete = false;
             entity.LastUpdateTime = DateTime.Now;
             _context.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(Guid id)
@@ -33,11 +34,13 @@ namespace Lin.Service
             Teacher teacher = _context.teacher.Where(x => x.ID == id).FirstOrDefault();
             teacher.IsDelete = true;
             _context.Update(teacher);
+            _context.SaveChanges();
         }
 
         public void Detele(Teacher entity)
         {
             _context.Remove(entity);
+            _context.SaveChanges();
         }
 
         public async Task<List<Teacher>> Select(Expression<Func<Teacher, bool>> where)
@@ -57,6 +60,7 @@ namespace Lin.Service
             teacher.Sex = entity.Sex;
             teacher.TeacherName = entity.TeacherName;
             _context.Update(teacher);
+            _context.SaveChanges();
         }
     }
 }

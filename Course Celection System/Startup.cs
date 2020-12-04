@@ -24,7 +24,7 @@ namespace Course_Celection_System
             Configuration = configuration;
             appsetting = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsetting.json").Build();
+                .AddJsonFile("appsettings.json").Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -40,8 +40,11 @@ namespace Course_Celection_System
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course_Celection_System", Version = "v1" });
             });
             services.AddDatabase(appsetting.GetConnectionString("SqlConnection"));
+            services.AddCors(options =>
+                       options.AddPolicy("cors",
+                           policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
-            services.AddScoped(typeof(ITeacherService),typeof(TeacherService))
+            services.AddScoped(typeof(ITeacherService), typeof(TeacherService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +57,8 @@ namespace Course_Celection_System
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Course_Celection_System v1"));
             }
 
+            app.UseCors();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -64,6 +69,7 @@ namespace Course_Celection_System
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
