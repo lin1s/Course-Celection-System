@@ -7,6 +7,10 @@
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
@@ -15,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lin.Application\Lin.Application.csproj" />
     <ProjectReference Include="..\Lin.Data\Lin.Data.csproj" />
     <ProjectReference Include="..\Lin.IService\Lin.IService.csproj" />
     <ProjectReference Include="..\Lin.Service\Lin.Service.csproj" />

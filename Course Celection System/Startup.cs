@@ -35,16 +35,27 @@ namespace Course_Celection_System
         {
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course_Celection_System", Version = "v1" });
             });
+
             services.AddDatabase(appsetting.GetConnectionString("SqlConnection"));
-            services.AddCors(options =>
-                       options.AddPolicy("cors",
-                           policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
             services.AddScoped(typeof(ITeacherService), typeof(TeacherService));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", p =>
+                {
+                    p.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                    //.AllowCredentials();
+                });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,11 +68,13 @@ namespace Course_Celection_System
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Course_Celection_System v1"));
             }
 
-            app.UseCors();
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("cors");
 
             app.UseAuthorization();
 
