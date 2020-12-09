@@ -1,5 +1,4 @@
-﻿using Lin.Entity.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +8,7 @@ namespace Lin.Entity.Models
     {
         public int StuID { get; set; }
         public string StuName { get; set; }
-        public Sex Sex { get; set; }
+        public string Sex { get; set; }
         public string Phone { get; set; }
     }
 }

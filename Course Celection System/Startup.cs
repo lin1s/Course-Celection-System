@@ -1,3 +1,4 @@
+using Lin.Data.GlobaSettings;
 using Lin.IService;
 using Lin.Service;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +26,11 @@ namespace Course_Celection_System
             appsetting = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
+            GlobaSettings globaSetting = new GlobaSettings(
+                appsetting.GetConnectionString("SqlConnection"),
+                appsetting.GetSection("RedisStrings")["SqlConnection"],
+                appsetting.GetSection("RedisStrings")["RedisMaxReadPool"],
+                appsetting.GetSection("RedisStrings")["RedisMaxWritePool"]);
         }
 
         public IConfiguration Configuration { get; }
