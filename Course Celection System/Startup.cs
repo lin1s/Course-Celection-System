@@ -23,18 +23,14 @@ namespace Course_Celection_System
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            appsetting = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json").Build();
-            GlobaSettings globaSetting = new GlobaSettings(
-                appsetting.GetConnectionString("SqlConnection"),
-                appsetting.GetSection("RedisStrings")["SqlConnection"],
-                appsetting.GetSection("RedisStrings")["RedisMaxReadPool"],
-                appsetting.GetSection("RedisStrings")["RedisMaxWritePool"]);
+            GlobaSettings.SetBaseConfig(
+               Configuration.GetConnectionString("SqlConnection"),
+               Configuration.GetSection("RedisStrings")["SqlConnection"],
+               Configuration.GetSection("RedisStrings")["RedisMaxReadPool"],
+               Configuration.GetSection("RedisStrings")["RedisMaxWritePool"]);
         }
 
         public IConfiguration Configuration { get; }
-        public IConfiguration appsetting { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -47,7 +43,9 @@ namespace Course_Celection_System
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course_Celection_System", Version = "v1" });
             });
 
-            services.AddDatabase(appsetting.GetConnectionString("SqlConnection"));
+            services.AddDatabase(GlobaSettings.SqlServerConnectionString);
+
+            services.AddDatabase(GlobaSettings.RedisConnectionString);
 
             services.AddScoped(typeof(ITeacherService), typeof(TeacherService));
 

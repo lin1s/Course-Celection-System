@@ -1,4 +1,5 @@
 ﻿using Lin.Data.DBContext;
+using Lin.Data.Redis;
 using Lin.Entity.Models;
 using Lin.IService;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,8 @@ namespace Lin.Service
             entity.IsDelete = false;
             entity.LastUpdateTime = DateTime.Now;
             _context.Add(entity);
-            _context.SaveChanges();
+            RedisHelper.Add(entity.ID.ToString(), entity, DateTime.Now.AddDays(1));
+            _context.SaveChanges();    
         }
 
         public void Delete(Guid id)

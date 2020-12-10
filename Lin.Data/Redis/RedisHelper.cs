@@ -12,12 +12,12 @@ namespace Lin.Data.Redis
     {
         private static readonly PooledRedisClientManager pool = null;
         private static readonly string[] redisHosts = null;
-        public static int RedisMaxReadPool = int.Parse(Directory.GetCurrentDirectory());
-        public static int RedisMaxWritePool = int.Parse(Directory.GetCurrentDirectory());
+        public static int RedisMaxReadPool = GlobaSettings.GlobaSettings.RedisMaxReadPool;
+        public static int RedisMaxWritePool = GlobaSettings.GlobaSettings.RedisMaxWritePool;
 
         static RedisHelper()
         {
-            var redisHostStr = Directory.GetCurrentDirectory();
+            var redisHostStr = GlobaSettings.GlobaSettings.RedisConnectionString;
 
             if (!string.IsNullOrEmpty(redisHostStr))
             {
@@ -35,6 +35,7 @@ namespace Lin.Data.Redis
                 }
             }
         }
+
         public static void Add<T>(string key, T value, DateTime expiry)
         {
             if (value == null)
@@ -104,8 +105,6 @@ namespace Lin.Data.Redis
             }
 
         }
-
-
 
         public static T Get<T>(string key)
         {

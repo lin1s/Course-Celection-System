@@ -14,5 +14,6 @@ namespace Lin.Data.DBContext
         public DbSet<Course> course { get; set; }
         public DbSet<Student> student { get; set; }
         public DbSet<Teacher> teacher { get; set; }
+        public DbSet<SelectRecord> selectRecords { get; set; }
     }
 }

@@ -29,11 +29,11 @@ namespace Course_Celection_System.Controllers
             {
                 _teacher.Add(teacher);
             }
-            catch
+            catch(Exception ex)
             {
                 result.status = 500;
                 result.message = "错误";
-                return new JsonResult(result);
+                return new JsonResult(ex);
             }
             result.status = 200;
             result.message = "添加成功";

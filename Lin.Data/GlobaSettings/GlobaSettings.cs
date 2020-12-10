@@ -14,7 +14,7 @@ namespace Lin.Data.GlobaSettings
         public static int RedisMaxReadPool { get; set; }
         public static int RedisMaxWritePool { get; set; }
 
-        public GlobaSettings(string sqlServerConnectionString, string redisConnectionString, string redisMaxReadPool, string redisMaxWritePool)
+        public static void SetBaseConfig(string sqlServerConnectionString, string redisConnectionString, string redisMaxReadPool, string redisMaxWritePool)
         {
             SqlServerConnectionString = sqlServerConnectionString;
             RedisConnectionString = redisConnectionString;
