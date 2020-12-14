@@ -1,4 +1,5 @@
 using Lin.Data.GlobaSettings;
+using Lin.Data.Redis;
 using Lin.IService;
 using Lin.Service;
 using Microsoft.AspNetCore.Builder;
@@ -43,11 +44,11 @@ namespace Course_Celection_System
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course_Celection_System", Version = "v1" });
             });
 
-            services.AddDatabase(GlobaSettings.SqlServerConnectionString);
-
-            services.AddDatabase(GlobaSettings.RedisConnectionString);
+            services.AddDatabase(GlobaSettings.SqlServerConnectionString);          
 
             services.AddScoped(typeof(ITeacherService), typeof(TeacherService));
+
+            services.AddScoped(typeof(HashOperator),typeof(HashOperator));
 
             services.AddCors(options =>
             {
