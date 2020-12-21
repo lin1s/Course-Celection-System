@@ -11,5 +11,6 @@ namespace Lin.Entity.Models
         public string Sex { get; set; }
         public string Phone { get; set; }
         public string StudentClass { get; set; }
+        public string Password { get; set; }
     }
 }

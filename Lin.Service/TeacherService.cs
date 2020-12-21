@@ -14,12 +14,10 @@ namespace Lin.Service
     public class TeacherService : ITeacherService
     {
         private readonly SystemDBContext _context;
-        private readonly HashOperator _hashOperator;
 
-        public TeacherService(SystemDBContext context,HashOperator hashOperator)
+        public TeacherService(SystemDBContext context)
         {
             _context = context;
-            _hashOperator = hashOperator;
         }
 
         public void Add(Teacher entity)
@@ -29,7 +27,6 @@ namespace Lin.Service
             entity.IsDelete = false;
             entity.LastUpdateTime = DateTime.Now;
             _context.Add(entity);
-            _hashOperator.Set(entity.ID.ToString(), entity.ID.ToString(), entity);
             _context.SaveChanges();    
         }
 
@@ -41,9 +38,18 @@ namespace Lin.Service
             _context.SaveChanges();
         }
 
-        public void Detele(Teacher entity)
+        public void Delete(int id)
         {
-            _context.Remove(entity);
+            Teacher teacher = _context.teacher.Where(x => x.TeacherID == id).FirstOrDefault();
+            teacher.IsDelete = true;
+            _context.Update(teacher);
+            _context.SaveChanges();
+        }
+
+        public void Delete(Teacher entity)
+        {
+            entity.IsDelete = true;
+            _context.Update(entity);
             _context.SaveChanges();
         }
 

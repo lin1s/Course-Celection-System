@@ -29,21 +29,45 @@ namespace Course_Celection_System.Controllers
             {
                 _teacher.Add(teacher);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.status = 500;
-                result.message = "错误";
-                return new JsonResult(ex);
+                result.message = ex.Message;
+                return new JsonResult(result);
             }
             result.status = 200;
             result.message = "添加成功";
             return new JsonResult(result);
         }
 
+        [Route("del")]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult Delete(int id)
         {
-            List<Teacher> teacherList = await _teacher.Select(x => !x.IsDelete);
+            JsonMessage result = new JsonMessage();
+            try
+            {
+                _teacher.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                result.status = 500;
+                result.message = ex.Message;
+                return new JsonResult(result);
+            }
+            result.status = 200;
+            result.message = "删除成功";
+            return new JsonResult(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTeacherList()
+        {
+            List<Teacher> teacherList;
+           /* if (!string.IsNullOrEmpty(id))
+                teacherList = await _teacher.Select(x => !x.IsDelete && x.TeacherID == int.Parse(id));
+            else*/
+                teacherList = await _teacher.Select(x => !x.IsDelete);
             return new JsonResult(teacherList);
         }
     }
