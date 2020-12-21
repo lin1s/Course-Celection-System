@@ -42,7 +42,7 @@ namespace Course_Celection_System.Controllers
 
         [Route("del")]
         [HttpGet]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             JsonMessage result = new JsonMessage();
             try
@@ -67,7 +67,7 @@ namespace Course_Celection_System.Controllers
            /* if (!string.IsNullOrEmpty(id))
                 teacherList = await _teacher.Select(x => !x.IsDelete && x.TeacherID == int.Parse(id));
             else*/
-                teacherList = await _teacher.Select(x => !x.IsDelete);
+                teacherList = await _teacher.SelectList(x => !x.IsDelete);
             return new JsonResult(teacherList);
         }
     }

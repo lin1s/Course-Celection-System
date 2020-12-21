@@ -39,7 +39,7 @@ namespace Lin.Service
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             Student student = _context.student.Where(x => x.StudentID == id).FirstOrDefault();
             student.IsDelete = true;
@@ -54,7 +54,7 @@ namespace Lin.Service
             _context.SaveChanges();
         }
 
-        public async Task<List<Student>> Select(Expression<Func<Student, bool>> where)
+        public async Task<List<Student>> SelectList(Expression<Func<Student, bool>> where)
         {
             return await _context.student.Where(where).ToListAsync();
         }
@@ -62,6 +62,11 @@ namespace Lin.Service
         public async Task<Student> Select(Guid id)
         {
             return await _context.student.Where(x => x.ID == id && !x.IsDelete).FirstOrDefaultAsync();
+        }
+
+        public async Task<Student> Select(Expression<Func<Student, bool>> where)
+        {
+            return await _context.student.Where(where).FirstOrDefaultAsync();
         }
 
         public void Update(Student entity)

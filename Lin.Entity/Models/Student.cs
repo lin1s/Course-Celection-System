@@ -6,7 +6,7 @@ namespace Lin.Entity.Models
 {
     public class Student : BaseEntity
     {
-        public int StudentID { get; set; }
+        public string StudentID { get; set; }
         public string StudentName { get; set; }
         public string Sex { get; set; }
         public string Phone { get; set; }

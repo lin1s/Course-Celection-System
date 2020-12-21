@@ -27,7 +27,7 @@ namespace Lin.Service
             entity.IsDelete = false;
             entity.LastUpdateTime = DateTime.Now;
             _context.Add(entity);
-            _context.SaveChanges();    
+            _context.SaveChanges();
         }
 
         public void Delete(Guid id)
@@ -38,7 +38,7 @@ namespace Lin.Service
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             Teacher teacher = _context.teacher.Where(x => x.TeacherID == id).FirstOrDefault();
             teacher.IsDelete = true;
@@ -53,7 +53,7 @@ namespace Lin.Service
             _context.SaveChanges();
         }
 
-        public async Task<List<Teacher>> Select(Expression<Func<Teacher, bool>> where)
+        public async Task<List<Teacher>> SelectList(Expression<Func<Teacher, bool>> where)
         {
             return await _context.teacher.Where(where).ToListAsync();
         }
@@ -61,6 +61,11 @@ namespace Lin.Service
         public async Task<Teacher> Select(Guid id)
         {
             return await _context.teacher.Where(x => x.ID == id && !x.IsDelete).FirstOrDefaultAsync();
+        }
+
+        public async Task<Teacher> Select(Expression<Func<Teacher, bool>> where)
+        {
+            return await _context.teacher.Where(where).FirstOrDefaultAsync();
         }
 
         public void Update(Teacher entity)
