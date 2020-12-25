@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Lin.Service
 {
-    class StudentService : IStudentService
+    public class StudentService : IStudentService
     {
         private readonly SystemDBContext _context;
 

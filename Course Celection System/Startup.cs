@@ -4,18 +4,11 @@ using Lin.IService;
 using Lin.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Course_Celection_System
 {
@@ -48,7 +41,17 @@ namespace Course_Celection_System
 
             services.AddScoped(typeof(ITeacherService), typeof(TeacherService));
 
+            services.AddScoped(typeof(IStudentService), typeof(StudentService));
+
             services.AddScoped(typeof(HashOperator),typeof(HashOperator));
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(1800);
+                options.Cookie.HttpOnly = true;
+            });
+
+            services.AddDistributedMemoryCache();
 
             services.AddCors(options =>
             {
@@ -60,7 +63,6 @@ namespace Course_Celection_System
                     //.AllowCredentials();
                 });
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,13 +83,15 @@ namespace Course_Celection_System
 
             app.UseCors("cors");
 
+            app.UseCookiePolicy();
+            app.UseSession();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

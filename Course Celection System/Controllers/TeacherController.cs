@@ -1,10 +1,11 @@
 ﻿using Lin.Entity.Models;
 using Lin.IService;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Course_Celection_System.Controllers
@@ -41,7 +42,7 @@ namespace Course_Celection_System.Controllers
         }
 
         [Route("del")]
-        [HttpGet]
+        [HttpGet]   
         public IActionResult Delete(string id)
         {
             JsonMessage result = new JsonMessage();
@@ -63,11 +64,7 @@ namespace Course_Celection_System.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTeacherList()
         {
-            List<Teacher> teacherList;
-           /* if (!string.IsNullOrEmpty(id))
-                teacherList = await _teacher.Select(x => !x.IsDelete && x.TeacherID == int.Parse(id));
-            else*/
-                teacherList = await _teacher.SelectList(x => !x.IsDelete);
+            List<Teacher> teacherList = await _teacher.SelectList(x => !x.IsDelete);
             return new JsonResult(teacherList);
         }
     }

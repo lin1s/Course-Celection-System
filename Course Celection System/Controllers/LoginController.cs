@@ -35,5 +35,35 @@ namespace Course_Celection_System.Controllers
             result.message = "登陆成功";
             return new JsonResult(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> TeacherLogin(string UserName, string Password)
+        {
+            JsonMessage result = new JsonMessage();
+            Teacher user = await _teacher.Select(x => x.TeacherID == UserName && !x.IsDelete);
+            if (user.Password != Password)
+            {
+                result.status = 500;
+                result.message = "账号或者密码错误";
+            }
+            result.status = 200;
+            result.message = "登陆成功";
+            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdminLogin(string UserName, string Password)
+        {
+            JsonMessage result = new JsonMessage();
+            Student user = await _student.Select(x => x.StudentID == UserName && !x.IsDelete);
+            if (user.Password != Password)
+            {
+                result.status = 500;
+                result.message = "账号或者密码错误";
+            }
+            result.status = 200;
+            result.message = "登陆成功";
+            return new JsonResult(result);
+        }
     }
 }
