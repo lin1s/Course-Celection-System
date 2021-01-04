@@ -1,5 +1,6 @@
 ﻿using Lin.Entity.Models;
 using Lin.IService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,47 +23,70 @@ namespace Course_Celection_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> StudentLogin(string UserName, string Password)
+        public async Task<IActionResult> Login(string UserName, string Password, string Permission)
         {
             JsonMessage result = new JsonMessage();
-            Student user = await _student.Select(x => x.StudentID == UserName && !x.IsDelete);
-            if(user.Password!=Password)
+            if (Permission == "teacher")
             {
-                result.status = 500;
-                result.message = "账号或者密码错误";
+                if (!(await TeacherLoginCheckAsync(UserName, Password)))
+                {
+                    result.status = 500;
+                    result.message = "登录失败，请确认账号或密码";
+                }
+                result.status = 200;
+                result.message = "登陆成功";
             }
-            result.status = 200;
-            result.message = "登陆成功";
+            else if (Permission == "student")
+            {
+                if (!(await StudentLoginCheck(UserName, Password)))
+                {
+                    result.status = 500;
+                    result.message = "登录失败，请确认账号或密码";
+                }
+                result.status = 200;
+                result.message = "登陆成功";
+            }
+            else if (Permission == "admin")
+            {
+
+            }
+            HttpContext.Session.SetString("userName", UserName);
+            HttpContext.Session.SetString("permission", Permission);
             return new JsonResult(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> TeacherLogin(string UserName, string Password)
+        private async Task<bool> TeacherLoginCheckAsync(string UserName, string Password)
         {
-            JsonMessage result = new JsonMessage();
-            Teacher user = await _teacher.Select(x => x.TeacherID == UserName && !x.IsDelete);
+            Teacher user = await _teacher.Select(x => x.TeacherID == UserName);
             if (user.Password != Password)
             {
-                result.status = 500;
-                result.message = "账号或者密码错误";
+                return false;
             }
-            result.status = 200;
-            result.message = "登陆成功";
-            return new JsonResult(result);
+            return true;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AdminLogin(string UserName, string Password)
+        private async Task<bool> StudentLoginCheck(string UserName, string Password)
         {
-            JsonMessage result = new JsonMessage();
-            Student user = await _student.Select(x => x.StudentID == UserName && !x.IsDelete);
+            Student user = await _student.Select(x => x.StudentID == UserName);
             if (user.Password != Password)
             {
-                result.status = 500;
-                result.message = "账号或者密码错误";
+                return false;
             }
+            return true;
+        }
+
+        private async void AdminLoginCheck(string UserName, string Password)
+        {
+            Teacher user = await _teacher.Select(x => x.TeacherID == UserName);
+        }
+
+        public IActionResult Logout(string UserName)
+        {
+            JsonMessage result = new JsonMessage();
+            HttpContext.Session.Remove(UserName);
+            HttpContext.Session.Remove("permission");
             result.status = 200;
-            result.message = "登陆成功";
+            result.message = "登出成功";
             return new JsonResult(result);
         }
     }

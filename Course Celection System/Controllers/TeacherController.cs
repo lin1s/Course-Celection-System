@@ -26,6 +26,8 @@ namespace Course_Celection_System.Controllers
         public IActionResult Add(Teacher teacher)
         {
             JsonMessage result = new JsonMessage();
+            string id = HttpContext.Session.GetString("adminID");
+            teacher.CreateBy = new Guid(id);
             try
             {
                 _teacher.Add(teacher);
