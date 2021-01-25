@@ -9,13 +9,14 @@ namespace Lin.IService
 {
     public interface ITeacherService
     {
-        public void Add(Teacher entity);
+        public void Add(Student entity);
+        public void Delete(Expression<Func<Student, bool>> where);
         public void Delete(string id);
         public void Delete(Guid id);
-        public void Delete(Teacher entity);
-        public Task<Teacher> Select(Guid id);
-        public Task<Teacher> Select(Expression<Func<Teacher, bool>> where);
-        public Task<List<Teacher>> SelectList(Expression<Func<Teacher, bool>> where);
-        public void Update(Teacher entity);
+        public Task<Student> Select(Expression<Func<Student, bool>> where);
+        public Task<Student> Select(Guid id);
+        public Task<List<Student>> SelectList(Expression<Func<Student, bool>> where);
+        public Task<List<Student>> SelectList();
+        public void Update(Student entity);
     }
 }

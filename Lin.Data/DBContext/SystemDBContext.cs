@@ -11,9 +11,9 @@ namespace Lin.Data.DBContext
         public SystemDBContext(DbContextOptions<SystemDBContext> options)
             : base(options) { }
 
-        public DbSet<Course> course { get; set; }
-        public DbSet<Student> student { get; set; }
-        public DbSet<Teacher> teacher { get; set; }
-        public DbSet<SelectRecord> selectRecords { get; set; }
+        public DbSet<Course> Course { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<SelectRecord> SelectRecords { get; set; }
     }
 }

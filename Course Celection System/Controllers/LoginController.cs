@@ -22,13 +22,14 @@ namespace Course_Celection_System.Controllers
             _student = student;
         }
 
+        [Route("login")]
         [HttpPost]
-        public async Task<IActionResult> Login(string UserName, string Password, string Permission)
+        public async Task<IActionResult> Login(string UserID, string Password, string Permission)
         {
             JsonMessage result = new JsonMessage();
             if (Permission == "teacher")
             {
-                if (!(await TeacherLoginCheckAsync(UserName, Password)))
+                if (!await TeacherLoginCheckAsync(UserID, Password))
                 {
                     result.status = 500;
                     result.message = "登录失败，请确认账号或密码";
@@ -38,7 +39,7 @@ namespace Course_Celection_System.Controllers
             }
             else if (Permission == "student")
             {
-                if (!(await StudentLoginCheck(UserName, Password)))
+                if (!await StudentLoginCheck(UserID, Password))
                 {
                     result.status = 500;
                     result.message = "登录失败，请确认账号或密码";
@@ -50,14 +51,14 @@ namespace Course_Celection_System.Controllers
             {
 
             }
-            HttpContext.Session.SetString("userName", UserName);
+            HttpContext.Session.SetString("userName", UserID);
             HttpContext.Session.SetString("permission", Permission);
             return new JsonResult(result);
         }
 
-        private async Task<bool> TeacherLoginCheckAsync(string UserName, string Password)
+        private async Task<bool> TeacherLoginCheckAsync(string UserID, string Password)
         {
-            Teacher user = await _teacher.Select(x => x.TeacherID == UserName);
+            Teacher user = await _teacher.Select(x => x.TeacherID == UserID);
             if (user.Password != Password)
             {
                 return false;
@@ -65,9 +66,9 @@ namespace Course_Celection_System.Controllers
             return true;
         }
 
-        private async Task<bool> StudentLoginCheck(string UserName, string Password)
+        private async Task<bool> StudentLoginCheck(string UserID, string Password)
         {
-            Student user = await _student.Select(x => x.StudentID == UserName);
+            Student user = await _student.Select(x => x.StudentID == UserID);
             if (user.Password != Password)
             {
                 return false;
@@ -80,6 +81,8 @@ namespace Course_Celection_System.Controllers
             Teacher user = await _teacher.Select(x => x.TeacherID == UserName);
         }
 
+        [Route("logout")]
+        [HttpGet]
         public IActionResult Logout(string UserName)
         {
             JsonMessage result = new JsonMessage();

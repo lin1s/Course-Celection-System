@@ -37,11 +37,11 @@ namespace Course_Celection_System
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course_Celection_System", Version = "v1" });
             });
 
-            services.AddDatabase(GlobaSettings.SqlServerConnectionString);          
-
-            services.AddScoped(typeof(ITeacherService), typeof(TeacherService));
+            services.AddDatabase(GlobaSettings.SqlServerConnectionString);
 
             services.AddScoped(typeof(IStudentService), typeof(StudentService));
+
+            services.AddScoped(typeof(ITeacherService), typeof(TeacherService));
 
             services.AddScoped(typeof(HashOperator),typeof(HashOperator));
 

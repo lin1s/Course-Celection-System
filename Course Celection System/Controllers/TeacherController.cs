@@ -69,5 +69,13 @@ namespace Course_Celection_System.Controllers
             List<Teacher> teacherList = await _teacher.SelectList(x => !x.IsDelete);
             return new JsonResult(teacherList);
         }
+
+        [Route("getTeacher")]
+        [HttpGet]
+        public async Task<IActionResult> GetTeacher(Guid id)
+        {
+            Teacher teacher = await _teacher.Select(x => x.ID == id);
+            return new JsonResult(teacher);
+        }
     }
 }

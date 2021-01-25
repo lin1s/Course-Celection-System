@@ -32,7 +32,7 @@ namespace Lin.Service
 
         public void Delete(Guid id)
         {
-            Teacher teacher = _context.teacher.Where(x => x.ID == id).FirstOrDefault();
+            Teacher teacher = _context.Teacher.Where(x => x.ID == id).FirstOrDefault();
             teacher.IsDelete = true;
             _context.Update(teacher);
             _context.SaveChanges();
@@ -40,7 +40,7 @@ namespace Lin.Service
 
         public void Delete(string id)
         {
-            Teacher teacher = _context.teacher.Where(x => x.TeacherID == id).FirstOrDefault();
+            Teacher teacher = _context.Teacher.Where(x => x.TeacherID == id).FirstOrDefault();
             teacher.IsDelete = true;
             _context.Update(teacher);
             _context.SaveChanges();
@@ -55,22 +55,22 @@ namespace Lin.Service
 
         public async Task<List<Teacher>> SelectList(Expression<Func<Teacher, bool>> where)
         {
-            return await _context.teacher.Where(where).ToListAsync();
+            return await _context.Teacher.Where(where).ToListAsync();
         }
 
         public async Task<Teacher> Select(Guid id)
         {
-            return await _context.teacher.Where(x => x.ID == id && !x.IsDelete).FirstOrDefaultAsync();
+            return await _context.Teacher.Where(x => x.ID == id && !x.IsDelete).FirstOrDefaultAsync();
         }
 
         public async Task<Teacher> Select(Expression<Func<Teacher, bool>> where)
         {
-            return await _context.teacher.Where(where).FirstOrDefaultAsync();
+            return await _context.Teacher.Where(where).FirstOrDefaultAsync();
         }
 
         public void Update(Teacher entity)
         {
-            Teacher teacher = _context.teacher.Where(x => x.ID == entity.ID).FirstOrDefault();
+            Teacher teacher = _context.Teacher.Where(x => x.ID == entity.ID).FirstOrDefault();
             teacher.LastUpdateTime = DateTime.Now;
             teacher.Sex = entity.Sex;
             teacher.TeacherName = entity.TeacherName;
