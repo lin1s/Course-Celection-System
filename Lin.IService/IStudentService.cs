@@ -7,16 +7,8 @@ using System.Threading.Tasks;
 
 namespace Lin.IService
 {
-    public interface IStudentService
+    public interface IStudentService:IBaseServices<Student>
     {
-        public void Add(Student entity);
-        public void Delete(Expression<Func<Student, bool>> where);
-        public void Delete(string id);
-        public void Delete(Guid id);
-        public Task<Student> Select(Expression<Func<Student, bool>> where);
-        public Task<Student> Select(Guid id);
-        public Task<List<Student>> SelectList(Expression<Func<Student, bool>> where);
-        public Task<List<Student>> SelectList();
-        public void Update(Student entity);
+
     }
 }
