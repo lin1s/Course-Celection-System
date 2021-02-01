@@ -1,6 +1,5 @@
 ﻿using Lin.Entity.Models;
 using Lin.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,8 +25,9 @@ namespace Course_Celection_System.Controllers
         public IActionResult Add(Teacher teacher)
         {
             JsonMessage result = new JsonMessage();
-            string id = HttpContext.Session.GetString("adminID");
-            teacher.CreateBy = new Guid(id);
+            teacher.ID = Guid.NewGuid();
+            teacher.CreateTime = DateTime.Now;
+            teacher.IsDelete = false;
             try
             {
                 _teacher.Add(teacher);

@@ -22,45 +22,24 @@ namespace Lin.Service
 
         public void Add(Teacher entity)
         {
-            entity.ID = Guid.NewGuid();
-            entity.CreateTime = DateTime.Now;
-            entity.IsDelete = false;
-            entity.LastUpdateTime = DateTime.Now;
-            _context.Add(entity);
-            _context.SaveChanges();
+            _context.Teacher.Add(entity);
         }
 
-        public void Delete(Guid id)
+        public void Delete(Expression<Func<Teacher, bool>> where)
         {
-            Teacher teacher = _context.Teacher.Where(x => x.ID == id).FirstOrDefault();
+            Teacher teacher = _context.Teacher.Where(where).FirstOrDefault();
             teacher.IsDelete = true;
             _context.Update(teacher);
-            _context.SaveChanges();
         }
 
         public void Delete(string id)
         {
-            Teacher teacher = _context.Teacher.Where(x => x.TeacherID == id).FirstOrDefault();
-            teacher.IsDelete = true;
-            _context.Update(teacher);
-            _context.SaveChanges();
+            this.Delete(x => x.TeacherID == id);
         }
 
-        public void Delete(Teacher entity)
+        public void Delete(Guid id)
         {
-            entity.IsDelete = true;
-            _context.Update(entity);
-            _context.SaveChanges();
-        }
-
-        public async Task<List<Teacher>> SelectList(Expression<Func<Teacher, bool>> where)
-        {
-            return await _context.Teacher.Where(where).ToListAsync();
-        }
-
-        public async Task<Teacher> Select(Guid id)
-        {
-            return await _context.Teacher.Where(x => x.ID == id && !x.IsDelete).FirstOrDefaultAsync();
+            this.Delete(x => x.ID == id);
         }
 
         public async Task<Teacher> Select(Expression<Func<Teacher, bool>> where)
@@ -68,14 +47,27 @@ namespace Lin.Service
             return await _context.Teacher.Where(where).FirstOrDefaultAsync();
         }
 
+
+        public async Task<Teacher> Select(Guid id)
+        {
+            return await this.Select(x => x.ID == id);
+        }
+
+
+        public async Task<List<Teacher>> SelectList(Expression<Func<Teacher, bool>> where)
+        {
+            return await _context.Teacher.Where(where).ToListAsync();
+        }
+
+        public async Task<List<Teacher>> SelectList()
+        {
+            return await this.SelectList(x=>!x.IsDelete);
+        }
+
         public void Update(Teacher entity)
         {
-            Teacher teacher = _context.Teacher.Where(x => x.ID == entity.ID).FirstOrDefault();
-            teacher.LastUpdateTime = DateTime.Now;
-            teacher.Sex = entity.Sex;
-            teacher.TeacherName = entity.TeacherName;
-            _context.Update(teacher);
-            _context.SaveChanges();
+            _context.Update(entity);
         }
+
     }
 }

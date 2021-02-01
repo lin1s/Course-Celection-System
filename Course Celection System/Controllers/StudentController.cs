@@ -27,20 +27,29 @@ namespace Course_Celection_System.Controllers
             return new JsonResult(studentList);
         }
 
-        [Route("getByID")]
-        [HttpGet]
-        public async Task<IActionResult> GetStudent(string UserID)
+        [Route("add")]
+        [HttpPost] 
+        public IActionResult AddStudent(Student student)
         {
-            Student student = await _student.Select(x => x.StudentID == UserID);
-            return new JsonResult(student);
+            JsonMessage result = new JsonMessage();
+            student.ID = Guid.NewGuid();
+            student.CreateTime = DateTime.Now;
+            student.IsDelete = false;
+            try
+            {
+                _student.Add(student);
+            }
+            catch (Exception ex)
+            {
+                result.status = 500;
+                result.message = ex.Message;
+                return new JsonResult(result);
+            }
+            result.status = 200;
+            result.message = "添加成功";
+            return new JsonResult(result);
         }
 
-        [Route("getByGuid")]
-        [HttpGet]
-        public async Task<IActionResult> GetStudentByGuid(Guid ID)
-        {
-            Student student = await _student.Select(ID);
-            return new JsonResult(student);
-        }
+
     }
 }

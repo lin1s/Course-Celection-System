@@ -51,8 +51,6 @@ namespace Course_Celection_System.Controllers
             {
 
             }
-            HttpContext.Session.SetString("userName", UserID);
-            HttpContext.Session.SetString("permission", Permission);
             return new JsonResult(result);
         }
 

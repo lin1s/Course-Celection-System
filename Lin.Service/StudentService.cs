@@ -22,7 +22,7 @@ namespace Lin.Service
 
         public void Add(Student entity)
         {
-            throw new NotImplementedException();
+            _context.Student.Add(entity);
         }
 
         public void Delete(Expression<Func<Student, bool>> where)
@@ -61,8 +61,9 @@ namespace Lin.Service
 
         public async Task<List<Student>> SelectList()
         {
-            return await this.SelectList(x => true);
+            return await this.SelectList(x => !x.IsDelete);
         }
+
 
         public void Update(Student entity)
         {

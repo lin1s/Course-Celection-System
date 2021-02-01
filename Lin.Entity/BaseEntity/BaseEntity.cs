@@ -9,12 +9,9 @@ namespace Lin.Entity
         public Guid ID { get; set; }
         public DateTime CreateTime { get; set; }
         public Guid CreateBy { get; set; }
-        public string CreateName { get; set; }
-        public DateTime LastUpdateTime { get; set; }
-        public Guid LastUpdateBy { get; set; }
-        public string LastUpdateName { get; set; }
+        public DateTime? LastUpdateTime { get; set; }
+        public Guid? LastUpdateBy { get; set; }
         public bool IsDelete { get; set; }
-        public Guid DeleteBy { get; set; }
-        public string DeleteName { get; set; }
+        public Guid? DeleteBy { get; set; }
     }
 }
