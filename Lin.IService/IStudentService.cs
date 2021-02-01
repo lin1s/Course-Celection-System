@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lin.IService
+namespace Lin.IServices
 {
-    public interface IStudentService:IBaseServices<Student>
+    public interface IStudentService:IBaseService<Student>
     {
 
     }

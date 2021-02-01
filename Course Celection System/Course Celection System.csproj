@@ -23,8 +23,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Lin.Application\Lin.Application.csproj" />
     <ProjectReference Include="..\Lin.Data\Lin.Data.csproj" />
-    <ProjectReference Include="..\Lin.IService\Lin.IService.csproj" />
-    <ProjectReference Include="..\Lin.Service\Lin.Service.csproj" />
+    <ProjectReference Include="..\Lin.IService\Lin.IServices.csproj" />
+    <ProjectReference Include="..\Lin.Service\Lin.Services.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

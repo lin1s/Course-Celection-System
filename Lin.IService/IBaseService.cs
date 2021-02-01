@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lin.IService
+namespace Lin.IServices
 {
-    public interface IBaseServices<TEntity> where TEntity : class
+    public interface IBaseService<TEntity> where TEntity : class
     {
         public void Add(TEntity entity);
         public void Delete(Expression<Func<TEntity, bool>> where);

@@ -1,7 +1,7 @@
 ﻿using Lin.Data.DBContext;
 using Lin.Data.Redis;
 using Lin.Entity.Models;
-using Lin.IService;
+using Lin.IServices;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Lin.Service
+namespace Lin.Services
 {
     public class TeacherService : ITeacherService
     {

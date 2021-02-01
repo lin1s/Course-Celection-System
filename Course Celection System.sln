@@ -9,15 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lin.Entity", "Lin.Entity\Li
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lin.Data", "Lin.Data\Lin.Data.csproj", "{2C50AEC8-02F5-4ACE-B9AE-71ECB49163F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lin.Service", "Lin.Service\Lin.Service.csproj", "{0EA8AF07-FB72-4710-AEA4-7A5963267244}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lin.Services", "Lin.Service\Lin.Services.csproj", "{0EA8AF07-FB72-4710-AEA4-7A5963267244}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "数据层", "数据层", "{DE70300F-537D-4262-AE67-AFA15B3C435D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "应用层", "应用层", "{F2EF67B6-3ABD-4A42-85FE-549309F0234B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lin.IService", "Lin.IService\Lin.IService.csproj", "{AB7BAFD8-1488-406E-B120-89DB540A69FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lin.IServices", "Lin.IService\Lin.IServices.csproj", "{AB7BAFD8-1488-406E-B120-89DB540A69FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lin.Application", "Lin.Application\Lin.Application.csproj", "{BD8F2AD5-4137-45B1-B8BD-EB503AED11BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lin.Application", "Lin.Application\Lin.Application.csproj", "{BD8F2AD5-4137-45B1-B8BD-EB503AED11BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
