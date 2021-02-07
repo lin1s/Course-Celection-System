@@ -1,5 +1,5 @@
 ﻿using Lin.Entity.Models;
-using Lin.IService;
+using Lin.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,23 +22,28 @@ namespace Course_Celection_System.Controllers
 
         [Route("add")]
         [HttpPost]
-        public IActionResult Add(Teacher teacher)
+        public IActionResult Add(Teacher teacher,string UserKey)
         {
             JsonMessage result = new JsonMessage();
             teacher.ID = Guid.NewGuid();
             teacher.CreateTime = DateTime.Now;
+            teacher.CreateBy = new Guid(UserKey);
+            teacher.LastUpdateTime = DateTime.Now;
+            teacher.LastUpdateBy = new Guid(UserKey);
             teacher.IsDelete = false;
+            
             try
             {
                 _teacher.Add(teacher);
             }
             catch (Exception ex)
             {
-                result.status = 500;
+                result.code = 500;
                 result.message = ex.Message;
                 return new JsonResult(result);
             }
-            result.status = 200;
+
+            result.code = 20000;
             result.message = "添加成功";
             return new JsonResult(result);
         }
@@ -54,11 +59,11 @@ namespace Course_Celection_System.Controllers
             }
             catch (Exception ex)
             {
-                result.status = 500;
+                result.code = 500;
                 result.message = ex.Message;
                 return new JsonResult(result);
             }
-            result.status = 200;
+            result.code = 20000;
             result.message = "删除成功";
             return new JsonResult(result);
         }
@@ -67,7 +72,11 @@ namespace Course_Celection_System.Controllers
         public async Task<IActionResult> GetTeacherList()
         {
             List<Teacher> teacherList = await _teacher.SelectList(x => !x.IsDelete);
-            return new JsonResult(teacherList);
+            JsonMessage result = new JsonMessage();
+            result.code = 20000;
+            result.message = "查询成功";
+            result.value<Teacher> = teacherList.ToString();
+            return new JsonResult(result);
         }
 
         [Route("getTeacher")]

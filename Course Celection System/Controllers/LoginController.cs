@@ -1,5 +1,5 @@
 ﻿using Lin.Entity.Models;
-using Lin.IService;
+using Lin.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,20 +31,20 @@ namespace Course_Celection_System.Controllers
             {
                 if (!await TeacherLoginCheckAsync(UserID, Password))
                 {
-                    result.status = 500;
+                    result.code = 500;
                     result.message = "登录失败，请确认账号或密码";
                 }
-                result.status = 200;
+                result.code = 20000;
                 result.message = "登陆成功";
             }
             else if (Permission == "student")
             {
                 if (!await StudentLoginCheck(UserID, Password))
                 {
-                    result.status = 500;
+                    result.code = 500;
                     result.message = "登录失败，请确认账号或密码";
                 }
-                result.status = 200;
+                result.code = 20000;
                 result.message = "登陆成功";
             }
             else if (Permission == "admin")
@@ -86,7 +86,7 @@ namespace Course_Celection_System.Controllers
             JsonMessage result = new JsonMessage();
             HttpContext.Session.Remove(UserName);
             HttpContext.Session.Remove("permission");
-            result.status = 200;
+            result.code = 20000;
             result.message = "登出成功";
             return new JsonResult(result);
         }

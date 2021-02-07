@@ -23,6 +23,7 @@ namespace Lin.Services
         public void Add(Teacher entity)
         {
             _context.Teacher.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(Expression<Func<Teacher, bool>> where)
@@ -30,16 +31,20 @@ namespace Lin.Services
             Teacher teacher = _context.Teacher.Where(where).FirstOrDefault();
             teacher.IsDelete = true;
             _context.Update(teacher);
+            _context.SaveChanges();
         }
 
         public void Delete(string id)
         {
             this.Delete(x => x.TeacherID == id);
+            _context.SaveChanges();
         }
 
         public void Delete(Guid id)
         {
             this.Delete(x => x.ID == id);
+            _context.SaveChanges();
+
         }
 
         public async Task<Teacher> Select(Expression<Func<Teacher, bool>> where)
@@ -67,6 +72,7 @@ namespace Lin.Services
         public void Update(Teacher entity)
         {
             _context.Update(entity);
+            _context.SaveChanges();
         }
 
     }

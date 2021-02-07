@@ -1,7 +1,7 @@
 using Lin.Data.GlobaSettings;
 using Lin.Data.Redis;
-using Lin.IService;
-using Lin.Service;
+using Lin.IServices;
+using Lin.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

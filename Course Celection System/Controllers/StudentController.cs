@@ -1,5 +1,5 @@
 ﻿using Lin.Entity.Models;
-using Lin.IService;
+using Lin.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -41,11 +41,11 @@ namespace Course_Celection_System.Controllers
             }
             catch (Exception ex)
             {
-                result.status = 500;
+                result.code = 500;
                 result.message = ex.Message;
                 return new JsonResult(result);
             }
-            result.status = 200;
+            result.code = 20000;
             result.message = "添加成功";
             return new JsonResult(result);
         }
