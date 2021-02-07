@@ -1,4 +1,5 @@
-﻿using Lin.Entity.Models;
+﻿using Lin.Entity.Enum;
+using Lin.Entity.Models;
 using Lin.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -75,8 +76,8 @@ namespace Course_Celection_System.Controllers
             JsonMessage result = new JsonMessage();
             result.code = 20000;
             result.message = "查询成功";
-            result.value<Teacher> = teacherList.ToString();
-            return new JsonResult(result);
+            //return new JsonResult(result);
+            return new JsonResult(new { code = ResultCode.正常, data = teacherList });
         }
 
         [Route("getTeacher")]
