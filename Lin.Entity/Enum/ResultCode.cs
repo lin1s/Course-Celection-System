@@ -9,6 +9,8 @@ namespace Lin.Entity.Enum
     public enum ResultCode
     {
         正常 = 20000,
-
+        错误=50000,
+        登陆失败= 60204,
+        
     }
 }

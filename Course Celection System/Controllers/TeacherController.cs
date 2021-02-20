@@ -25,7 +25,6 @@ namespace Course_Celection_System.Controllers
         [HttpPost]
         public IActionResult Add(Teacher teacher,string UserKey)
         {
-            JsonMessage result = new JsonMessage();
             teacher.ID = Guid.NewGuid();
             teacher.CreateTime = DateTime.Now;
             teacher.CreateBy = new Guid(UserKey);
@@ -39,44 +38,30 @@ namespace Course_Celection_System.Controllers
             }
             catch (Exception ex)
             {
-                result.code = 500;
-                result.message = ex.Message;
-                return new JsonResult(result);
+                return new JsonResult(new { code = ResultCode.错误,message=ex.Message });
             }
-
-            result.code = 20000;
-            result.message = "添加成功";
-            return new JsonResult(result);
+            return new JsonResult(new { code = ResultCode.正常 });
         }
 
         [Route("del")]
         [HttpGet]   
         public IActionResult Delete(string id)
         {
-            JsonMessage result = new JsonMessage();
             try
             {
                 _teacher.Delete(id);
             }
             catch (Exception ex)
             {
-                result.code = 500;
-                result.message = ex.Message;
-                return new JsonResult(result);
+                return new JsonResult(new { code = ResultCode.错误, message = ex.Message });
             }
-            result.code = 20000;
-            result.message = "删除成功";
-            return new JsonResult(result);
+            return new JsonResult(new { code = ResultCode.正常 });
         }
 
         [HttpGet]
         public async Task<IActionResult> GetTeacherList()
         {
             List<Teacher> teacherList = await _teacher.SelectList(x => !x.IsDelete);
-            JsonMessage result = new JsonMessage();
-            result.code = 20000;
-            result.message = "查询成功";
-            //return new JsonResult(result);
             return new JsonResult(new { code = ResultCode.正常, data = teacherList });
         }
 

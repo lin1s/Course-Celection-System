@@ -1,4 +1,5 @@
-﻿using Lin.Entity.Models;
+﻿using Lin.Entity.Enum;
+using Lin.Entity.Models;
 using Lin.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,10 +29,9 @@ namespace Course_Celection_System.Controllers
         }
 
         [Route("add")]
-        [HttpPost] 
+        [HttpPost]
         public IActionResult AddStudent(Student student)
         {
-            JsonMessage result = new JsonMessage();
             student.ID = Guid.NewGuid();
             student.CreateTime = DateTime.Now;
             student.IsDelete = false;
@@ -41,13 +41,9 @@ namespace Course_Celection_System.Controllers
             }
             catch (Exception ex)
             {
-                result.code = 500;
-                result.message = ex.Message;
-                return new JsonResult(result);
+                return new JsonResult(new { code = ResultCode.错误, message = ex.Message });
             }
-            result.code = 20000;
-            result.message = "添加成功";
-            return new JsonResult(result);
+            return new JsonResult(new { code = ResultCode.正常 });
         }
 
 
