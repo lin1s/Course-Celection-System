@@ -1,12 +1,11 @@
 ﻿using Lin.Data.DBContext;
-using Lin.Data.Redis;
 using Lin.Entity.Models;
 using Lin.IServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Lin.Services
@@ -15,9 +14,15 @@ namespace Lin.Services
     {
         private readonly SystemDBContext _context;
 
+        public CourseService(SystemDBContext context)
+        {
+            _context = context;
+        }
+
         public void Add(Course entity)
         {
             _context.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(Expression<Func<Course, bool>> where)
@@ -25,41 +30,48 @@ namespace Lin.Services
             Course entity =_context.Course.Where(where).FirstOrDefault();
             entity.IsDelete = true;
             _context.Update(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(string id)
         {
-            throw new NotImplementedException();
+            this.Delete(x => x.CourseID == id);
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            this.Delete(x => x.ID == id);
         }
 
-        public Task<Course> Select(Expression<Func<Course, bool>> where)
+        public async Task<Course> Select(Expression<Func<Course, bool>> where)
         {
-            throw new NotImplementedException();
+            return await _context.Course.Where(where).FirstOrDefaultAsync();
         }
 
-        public Task<Course> Select(Guid id)
+        public async Task<Course> Select(Guid id)
         {
-            throw new NotImplementedException();
+            return await this.Select(x => x.ID == id);
         }
 
-        public Task<List<Course>> SelectList(Expression<Func<Course, bool>> where)
+        public async Task<Course> Select(string id)
         {
-            throw new NotImplementedException();
+            return await this.Select(x => x.CourseID == id);
         }
 
-        public Task<List<Course>> SelectList()
+        public async Task<List<Course>> SelectList(Expression<Func<Course, bool>> where)
         {
-            throw new NotImplementedException();
+            return await _context.Course.Where(where).ToListAsync();
+        }
+
+        public async Task<List<Course>> SelectList()
+        {
+            return await this.SelectList(x => !x.IsDelete);
         }
 
         public void Update(Course entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            _context.SaveChanges();
         }
     }
 }

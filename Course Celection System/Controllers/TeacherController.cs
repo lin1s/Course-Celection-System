@@ -23,28 +23,28 @@ namespace Course_Celection_System.Controllers
 
         [Route("add")]
         [HttpPost]
-        public IActionResult Add(Teacher teacher,string UserKey)
+        public IActionResult Add([FromBody] Teacher teacher)
         {
+
             teacher.ID = Guid.NewGuid();
             teacher.CreateTime = DateTime.Now;
-            teacher.CreateBy = new Guid(UserKey);
+            teacher.CreateBy = (Guid)teacher.LastUpdateBy;
             teacher.LastUpdateTime = DateTime.Now;
-            teacher.LastUpdateBy = new Guid(UserKey);
             teacher.IsDelete = false;
-            
+
             try
             {
                 _teacher.Add(teacher);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return new JsonResult(new { code = ResultCode.错误,message=ex.Message });
+                return new JsonResult(new { code = ResultCode.错误, message = e.Message });
             }
             return new JsonResult(new { code = ResultCode.正常 });
         }
 
         [Route("del")]
-        [HttpGet]   
+        [HttpGet]
         public IActionResult Delete(string id)
         {
             try
@@ -62,14 +62,14 @@ namespace Course_Celection_System.Controllers
         public async Task<IActionResult> GetTeacherList()
         {
             List<Teacher> teacherList = await _teacher.SelectList(x => !x.IsDelete);
-            return new JsonResult(new { code = ResultCode.正常, data = teacherList });
+            return new JsonResult(new { code = ResultCode.正常, data = teacherList.OrderBy(x=>x.CreateTime) });
         }
 
         [Route("getTeacher")]
         [HttpGet]
-        public async Task<IActionResult> GetTeacher(Guid id)
+        public async Task<IActionResult> GetTeacher(string id)
         {
-            Teacher teacher = await _teacher.Select(x => x.ID == id);
+            Teacher teacher = await _teacher.Select(id);
             return new JsonResult(teacher);
         }
     }

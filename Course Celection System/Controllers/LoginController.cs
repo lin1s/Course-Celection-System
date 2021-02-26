@@ -28,28 +28,41 @@ namespace Course_Celection_System.Controllers
         public async Task<IActionResult> Login(string UserID, string Password, string Permission)
         {
             int code = (int)ResultCode.错误;
+            string token = null, message = null;
             if (Permission == "teacher")
             {
                 if (!await TeacherLoginCheckAsync(UserID, Password))
+                {
                     code = (int)ResultCode.登陆失败;
+                    message = "账号或密码错误，请重新输入";
+                }
                 else
+                {
                     code = (int)ResultCode.正常;
+                    token = "teacher-token";
+                }
             }
             else if (Permission == "student")
             {
-                if (!await StudentLoginCheck(UserID, Password))
+                if (!await StudentLoginCheckAsync(UserID, Password))
+                {
                     code = (int)ResultCode.登陆失败;
+                    message = "账号或密码错误，请重新输入";
+                }
                 else
+                {
                     code = (int)ResultCode.正常;
+                    token = "teacher-token";
+                }
             }
             else if (Permission == "admin")
             {
 
             }
-            return new JsonResult(new { code = code });
+            return new JsonResult(new { code = code, data = token, message = message });
         }
 
-        private async Task<bool> TeacherLoginCheckAsync(string TeacherID ,string Password)
+        private async Task<bool> TeacherLoginCheckAsync(string TeacherID, string Password)
         {
             Teacher user = await _teacher.Select(x => x.TeacherID == TeacherID);
             if (user.Password != Password)
@@ -59,7 +72,7 @@ namespace Course_Celection_System.Controllers
             return true;
         }
 
-        private async Task<bool> StudentLoginCheck(string StudentID, string Password)
+        private async Task<bool> StudentLoginCheckAsync(string StudentID, string Password)
         {
             Student user = await _student.Select(x => x.StudentID == StudentID);
             if (user.Password != Password)

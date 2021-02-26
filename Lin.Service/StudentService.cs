@@ -52,6 +52,10 @@ namespace Lin.Services
         {
             return await this.Select(x => x.ID == id);
         }
+        public async Task<Student> Select(string id)
+        {
+            return await this.Select(x => x.StudentID == id);
+        }
 
 
         public async Task<List<Student>> SelectList(Expression<Func<Student, bool>> where)
