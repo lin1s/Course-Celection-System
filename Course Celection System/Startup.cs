@@ -84,11 +84,12 @@ namespace Course_Celection_System
             app.UseRouting();
 
             app.UseCors("cors");
+            app.UseAuthorization();
 
             app.UseCookiePolicy();
             app.UseSession();
 
-            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
