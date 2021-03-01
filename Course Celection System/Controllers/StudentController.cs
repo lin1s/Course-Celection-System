@@ -20,17 +20,25 @@ namespace Course_Celection_System.Controllers
             _student = student;
         }
 
-        [Route("list")]
+        [Route("getList")]
         [HttpGet]
         public async Task<IActionResult> GetStudentList()
         {
             List<Student> studentList = await _student.SelectList();
-            return new JsonResult(studentList);
+            return new JsonResult(new { code = ResultCode.正常, data = studentList });
+        }
+
+        [Route("get")]
+        [HttpGet]
+        public async Task<IActionResult> GetStudent(string studentId)
+        {
+            Student student = await _student.Select(studentId);
+            return new JsonResult(new {code = ResultCode.正常, data = student});
         }
 
         [Route("add")]
         [HttpPost]
-        public IActionResult AddStudent(Student student)
+        public IActionResult StudentAdd([FromBody] Student student)
         {
             student.ID = Guid.NewGuid();
             student.CreateTime = DateTime.Now;
@@ -39,13 +47,43 @@ namespace Course_Celection_System.Controllers
             {
                 _student.Add(student);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return new JsonResult(new { code = ResultCode.错误, message = ex.Message });
+                return new JsonResult(new { code = ResultCode.错误, message = e.Message });
             }
             return new JsonResult(new { code = ResultCode.正常 });
         }
 
+        [Route("update")]
+        [HttpPost]
+        public IActionResult StudentUpdate([FromBody] Student student)
+        {
+            student.LastUpdateTime=DateTime.Now;
+            try
+            {
+                _student.Update(student);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(new { code = ResultCode.错误, message = e.Message });
+            }
+            return new JsonResult(new { code = ResultCode.正常 });
 
+        }
+
+        [Route("del")]
+        [HttpGet]
+        public IActionResult StudentDel(string studentId)
+        {
+            try
+            {
+                _student.Delete(studentId);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(new { code = ResultCode.错误, message = e.Message });
+            }
+            return new JsonResult(new { code = ResultCode.正常 });
+        }
     }
 }

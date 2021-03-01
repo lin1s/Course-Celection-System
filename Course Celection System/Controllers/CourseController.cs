@@ -42,9 +42,9 @@ namespace Course_Celection_System.Controllers
 
         [Route("get")]
         [HttpGet]
-        public async Task<IActionResult> GetCourse(string courseID)
+        public async Task<IActionResult> GetCourse(string courseId)
         {
-            Course course = await _course.Select(courseID);
+            Course course = await _course.Select(courseId);
             Teacher teacher = await _teacher.Select(course.TeacherID);
             ViewModelCourse viewCourse = new ViewModelCourse();
             viewCourse = viewCourse.AutoCopy(course);
@@ -61,9 +61,41 @@ namespace Course_Celection_System.Controllers
             course.CreateTime = DateTime.Now;
             course.LastUpdateTime=DateTime.Now;
             course.IsDelete = false;
+            course.HaveStu = 0;
             try
             {
                 _course.Add(course);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(new { code = ResultCode.错误, message = e.Message });
+            }
+            return new JsonResult(new { code = ResultCode.正常 });
+        }
+
+        [Route("update")]
+        [HttpPost]
+        public IActionResult CourseUpdate([FromBody] Course course)
+        {
+            course.LastUpdateTime=DateTime.Now;
+            try
+            {
+                _course.Update(course);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(new { code = ResultCode.错误, message = e.Message });
+            }
+            return new JsonResult(new { code = ResultCode.正常 });
+        }
+
+        [Route("del")]
+        [HttpGet]
+        public IActionResult CourseDel(string courseID)
+        {
+            try
+            {
+                _course.Delete(courseID);
             }
             catch (Exception e)
             {

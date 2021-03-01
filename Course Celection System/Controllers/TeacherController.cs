@@ -57,6 +57,7 @@ namespace Course_Celection_System.Controllers
             return new JsonResult(new { code = ResultCode.正常 });
         }
 
+        [Route("getList")]
         [HttpGet]
         public async Task<IActionResult> GetTeacherList()
         {
@@ -64,7 +65,7 @@ namespace Course_Celection_System.Controllers
             return new JsonResult(new { code = ResultCode.正常, data = teacherList.OrderBy(x=>x.CreateTime) });
         }
 
-        [Route("getTeacher")]
+        [Route("get")]
         [HttpGet]
         public async Task<IActionResult> GetTeacher(string id)
         {
