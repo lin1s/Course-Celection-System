@@ -44,7 +44,7 @@ namespace Lin.Services
 
         public async Task<Student> Select(Expression<Func<Student, bool>> where)
         {
-            return await _context.Student.Where(where).FirstOrDefaultAsync();
+            return await _context.Student.AsNoTracking().Where(where).FirstOrDefaultAsync();
         }
 
 
@@ -60,7 +60,7 @@ namespace Lin.Services
 
         public async Task<List<Student>> SelectList(Expression<Func<Student, bool>> where)
         {
-            return await _context.Student.Where(where).ToListAsync();
+            return await _context.Student.AsNoTracking().Where(where).ToListAsync();
         }
 
         public async Task<List<Student>> SelectList()

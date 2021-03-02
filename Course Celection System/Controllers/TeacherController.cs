@@ -20,9 +20,25 @@ namespace Course_Celection_System.Controllers
             _teacher = teacher;
         }
 
+        [Route("getList")]
+        [HttpGet]
+        public async Task<IActionResult> GetTeacherList()
+        {
+            List<Teacher> teacherList = await _teacher.SelectList(x => !x.IsDelete);
+            return new JsonResult(new { code = ResultCode.正常, data = teacherList.OrderBy(x => x.CreateTime) });
+        }
+
+        [Route("get")]
+        [HttpGet]
+        public async Task<IActionResult> GetTeacher(string id)
+        {
+            Teacher teacher = await _teacher.Select(id);
+            return new JsonResult(teacher);
+        }
+
         [Route("add")]
         [HttpPost]
-        public IActionResult Add([FromBody] Teacher teacher)
+        public IActionResult TeacherAdd([FromBody] Teacher teacher)
         {
 
             teacher.ID = Guid.NewGuid();
@@ -42,9 +58,26 @@ namespace Course_Celection_System.Controllers
             return new JsonResult(new { code = ResultCode.正常 });
         }
 
+        [Route("update")]
+        [HttpPost]
+        public IActionResult TeacherUpdate([FromBody] Teacher teacher)
+        {
+            teacher.LastUpdateTime=DateTime.Now;
+            try
+            {
+                _teacher.Update(teacher);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(new { code = ResultCode.错误, message = e.Message });
+            }
+            return new JsonResult(new { code = ResultCode.正常 });
+        }
+
+
         [Route("del")]
         [HttpGet]
-        public IActionResult Delete(string id)
+        public IActionResult TeacherDelete(string id)
         {
             try
             {
@@ -57,20 +90,6 @@ namespace Course_Celection_System.Controllers
             return new JsonResult(new { code = ResultCode.正常 });
         }
 
-        [Route("getList")]
-        [HttpGet]
-        public async Task<IActionResult> GetTeacherList()
-        {
-            List<Teacher> teacherList = await _teacher.SelectList(x => !x.IsDelete);
-            return new JsonResult(new { code = ResultCode.正常, data = teacherList.OrderBy(x=>x.CreateTime) });
-        }
 
-        [Route("get")]
-        [HttpGet]
-        public async Task<IActionResult> GetTeacher(string id)
-        {
-            Teacher teacher = await _teacher.Select(id);
-            return new JsonResult(teacher);
-        }
     }
 }
