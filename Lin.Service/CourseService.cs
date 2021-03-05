@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using DbContextUtils;
 
 namespace Lin.Services
 {
@@ -45,7 +46,7 @@ namespace Lin.Services
 
         public async Task<Course> Select(Expression<Func<Course, bool>> where)
         {
-            return await _context.Course.AsNoTracking().Where(where).FirstOrDefaultAsync();
+            return await _context.Course.Where(where).FirstOrDefaultAsync();
         }
 
         public async Task<Course> Select(Guid id)
@@ -60,7 +61,7 @@ namespace Lin.Services
 
         public async Task<List<Course>> SelectList(Expression<Func<Course, bool>> where)
         {
-            return await _context.Course.AsNoTracking().Where(where).ToListAsync();
+            return await _context.Course.Where(where).ToListAsync();
         }
 
         public async Task<List<Course>> SelectList()
@@ -72,6 +73,7 @@ namespace Lin.Services
         {
             _context.Update(entity);
             _context.SaveChanges();
+            _context.DetachAll();
         }
     }
 }

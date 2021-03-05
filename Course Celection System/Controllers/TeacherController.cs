@@ -71,6 +71,7 @@ namespace Course_Celection_System.Controllers
             {
                 return new JsonResult(new { code = ResultCode.错误, message = e.Message });
             }
+            
             return new JsonResult(new { code = ResultCode.正常 });
         }
 

@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContext<SystemDBContext>(Options =>
             {
                 Options.UseSqlServer(ConnectionStrings);
+                Options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }, ServiceLifetime.Singleton);
             return services;
         }
