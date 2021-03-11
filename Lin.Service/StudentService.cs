@@ -24,6 +24,8 @@ namespace Lin.Services
         public void Add(Student entity)
         {
             _context.Student.Add(entity);
+            _context.SaveChanges();
+            _context.DetachAll();
         }
 
         public void Delete(Expression<Func<Student, bool>> where)
@@ -31,6 +33,7 @@ namespace Lin.Services
             Student student = _context.Student.Where(where).FirstOrDefault();
             student.IsDelete = true;
             _context.Update(student);
+            _context.SaveChanges();
         }
 
         public void Delete(string id)

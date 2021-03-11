@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Lin.IServices
 {
-    public interface ITeacherService:IBaseService<Teacher>
+    public interface ITeacherService : IBaseService<Teacher>
     {
+        public void Delete(string id);
+        public Task<Teacher> Select(string id);
 
     }
 }

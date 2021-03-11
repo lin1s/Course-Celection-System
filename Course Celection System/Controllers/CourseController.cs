@@ -91,11 +91,11 @@ namespace Course_Celection_System.Controllers
 
         [Route("del")]
         [HttpGet]
-        public IActionResult CourseDel(string courseID)
+        public IActionResult CourseDel(string courseId)
         {
             try
             {
-                _course.Delete(courseID);
+                _course.Delete(courseId);
             }
             catch (Exception e)
             {

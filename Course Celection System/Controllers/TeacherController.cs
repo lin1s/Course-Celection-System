@@ -78,11 +78,11 @@ namespace Course_Celection_System.Controllers
 
         [Route("del")]
         [HttpGet]
-        public IActionResult TeacherDelete(string id)
+        public IActionResult TeacherDelete(string teacherId)
         {
             try
             {
-                _teacher.Delete(id);
+                _teacher.Delete(teacherId);
             }
             catch (Exception ex)
             {

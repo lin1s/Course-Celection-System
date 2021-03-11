@@ -24,6 +24,7 @@ namespace Lin.Services
         {
             _context.Add(entity);
             _context.SaveChanges();
+            _context.DetachAll();
         }
 
         public void Delete(Expression<Func<Course, bool>> where)

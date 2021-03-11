@@ -41,7 +41,9 @@ namespace Course_Celection_System.Controllers
         public IActionResult StudentAdd([FromBody] Student student)
         {
             student.ID = Guid.NewGuid();
+            student.CreateBy = (Guid)student.LastUpdateBy;
             student.CreateTime = DateTime.Now;
+            student.LastUpdateTime=DateTime.Now;
             student.IsDelete = false;
             try
             {
@@ -73,7 +75,7 @@ namespace Course_Celection_System.Controllers
 
         [Route("del")]
         [HttpGet]
-        public IActionResult StudentDel(string studentId)
+        public IActionResult StudentDel(string studentId)   
         {
             try
             {

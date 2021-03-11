@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lin.IServices
 {
-    public interface ICourseService : IBaseService<Course>
+    public interface IRecordService :IBaseService<SelectRecord>
     {
-        public void Delete(string id);
-        public Task<Course> Select(string id);
+        public Task AddAsync(SelectRecord entity);
 
     }
 }
