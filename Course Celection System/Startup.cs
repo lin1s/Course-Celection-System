@@ -45,6 +45,8 @@ namespace Course_Celection_System
 
             services.AddScoped(typeof(ICourseService), typeof(CourseService));
 
+            services.AddScoped(typeof(IRecordService), typeof(RecordService));
+
             services.AddScoped(typeof(HashOperator),typeof(HashOperator));
 
             services.AddSession(options =>

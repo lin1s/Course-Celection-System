@@ -76,5 +76,14 @@ namespace Lin.Services
             _context.SaveChanges();
             _context.DetachAll();
         }
+
+        public int GetCount(Expression<Func<Course, bool>> where)
+        {
+            return _context.Course.Where(where).Count();
+        }
+        public int GetCount()
+        {
+            return this.GetCount(x=>true);
+        }
     }
 }
