@@ -52,6 +52,7 @@ namespace Lin.Data.Redis
         public T Get<T>(string hashId, string key)
         {
             string value = Redis.GetValueFromHash(hashId, key);
+            Redis.Dispose();
             return JsonSerializer.DeserializeFromString<T>(value);
         }
 
@@ -70,6 +71,7 @@ namespace Lin.Data.Redis
                     result.Add(value);
                 });
             }
+            Redis.Dispose();
             return result;
         }
 

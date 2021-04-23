@@ -17,19 +17,23 @@ namespace Course_Celection_System.Controllers
         private readonly IRecordService _record;
         private readonly ICourseService _course;
         private readonly IStudentService _student;
+        private readonly ITeacherService _teacher;
         private readonly HashOperator _redis = new HashOperator();
 
-        public RecordController(IRecordService record, ICourseService course,IStudentService student)
+        public RecordController(IRecordService record, ICourseService course,IStudentService student,ITeacherService teacher)
         {
             _record = record;
             _course = course;
             _student = student;
+            _teacher = teacher;  
         }
 
         [Route("add")]
         [HttpPost]
         public async Task<IActionResult> RecordAdd([FromBody] SelectRecord record)
         {
+            int a = _record.GetCount(x => x.CourseID == record.CourseID && x.StudentID == record.StudentID);
+            if (a > 0) return new JsonResult(new { code = ResultCode.错误, message = "已选过该课程，请确认后再提交" });
             record.ID = Guid.NewGuid();
             record.CreateBy = (Guid)record.LastUpdateBy;
             record.CreateTime = DateTime.Now;
@@ -51,16 +55,26 @@ namespace Course_Celection_System.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCourse()
         {
-            List<Course> courseList = _redis.GetAll<Course>("courseList");
-            if (courseList.Count < _course.GetCount())
+            List<ViewModelCourse> viewCourseList = _redis.GetAll<ViewModelCourse>("courseList");
+            List<Course> courseList = await _course.SelectList();
+            if (viewCourseList.Count < _course.GetCount())
             {
                 courseList = await _course.SelectList();
+                foreach (var course in courseList)
+                {
+                    ViewModelCourse item = new ViewModelCourse();
+                    item = item.AutoCopy(course);
+                    Teacher teacher = await _teacher.Select(item.TeacherID);
+                    item.TeacherName = teacher.TeacherName;
+                    viewCourseList.Add(item);
+                }
                 courseList.ForEach(x =>
                 {
                     _redis.Set("courseList", x.ID.ToString(), x);
                 });
             }
-            return new JsonResult(new { code = ResultCode.正常, data = courseList });
+            return new JsonResult(new { code = ResultCode.正常, data = viewCourseList });
+
         }
 
         [Route("getChoose")]
